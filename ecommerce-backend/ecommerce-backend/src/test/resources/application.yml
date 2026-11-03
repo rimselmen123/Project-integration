@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:ecommerce;MODE=PostgreSQL;DB_CLOSE_DELAY=-1
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    open-in-view: false
+app:
+  jwt-secret: test-secret-key-at-least-32-characters-long-123456
+  jwt-expiration-ms: 3600000
+  seed-enabled: true
+  demo-password: Demo12345!
+  cors-origins: http://localhost:4200

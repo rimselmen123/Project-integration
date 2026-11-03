@@ -1,0 +1,49 @@
+<section class="container section">
+  <div class="page-heading">
+    <span class="eyebrow">LA BOUTIQUE</span>
+    <h1>Vos nouveaux essentiels.</h1>
+    <p>Bien choisir, tout simplement.</p>
+  </div>
+  <div class="filters">
+    <label class="search-field"
+      >Rechercher<input
+        [(ngModel)]="query"
+        placeholder="Un casque, une lampe…"
+        type="search" /></label
+    ><label
+      >Univers<select [(ngModel)]="category">
+        <option [ngValue]="0">Tous les univers</option>
+        <option *ngFor="let c of categories" [ngValue]="c.id">
+          {{ c.name }}
+        </option>
+      </select></label
+    ><label
+      >Trier<select [(ngModel)]="sort">
+        <option value="default">Notre sélection</option>
+        <option value="price-asc">Prix croissant</option>
+        <option value="price-desc">Prix décroissant</option>
+      </select></label
+    >
+  </div>
+  <p *ngIf="loading" role="status">Chargement…</p>
+  <p class="alert error" *ngIf="error" role="alert">{{ error }}</p>
+  <p class="alert success" *ngIf="message" role="status">
+    {{ message }} <a routerLink="/cart">Voir le panier</a>
+  </p>
+  <p class="results-count">{{ filtered.length }} essentiel(s)</p>
+  <div class="product-grid">
+    <app-product-card
+      *ngFor="let p of filtered"
+      [product]="p"
+      [busy]="adding === p.id"
+      (add)="add($event)"
+    ></app-product-card>
+  </div>
+  <div class="empty" *ngIf="!loading && !error && !filtered.length">
+    <h2>Aucun résultat.</h2>
+    <p>Essayez un autre mot ou un autre univers.</p>
+    <button class="button secondary" (click)="query = ''; category = 0">
+      Réinitialiser les filtres
+    </button>
+  </div>
+</section>

@@ -1,0 +1,117 @@
+<section class="container section">
+  <span class="eyebrow">ADMINISTRATION</span>
+  <h1>Produits.</h1>
+  <app-admin-nav></app-admin-nav>
+  <p *ngIf="error" class="alert error" role="alert">{{ error }}</p>
+  <p *ngIf="message" class="alert success" role="status">{{ message }}</p>
+  <div class="admin-grid">
+    <div class="table-wrap">
+      <h2>Le catalogue</h2>
+      <p *ngIf="loading">Chargement…</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Produit</th>
+            <th>Prix</th>
+            <th>Stock</th>
+            <th>Actif</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let p of products">
+            <td>
+              {{ p.name }}<small>{{ p.categoryName }}</small>
+            </td>
+            <td>{{ p.price | currency: "EUR" }}</td>
+            <td>{{ p.stock }}</td>
+            <td>{{ p.active ? "Oui" : "Non" }}</td>
+            <td>
+              <button class="link-button" [disabled]="busy" (click)="edit(p)">
+                Modifier</button
+              ><button
+                class="link-button danger"
+                [disabled]="busy || !p.active"
+                (click)="remove(p)"
+              >
+                Désactiver
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <aside class="editor">
+      <h2>{{ form.id ? "Modifier le produit" : "Nouveau produit" }}</h2>
+      <form (ngSubmit)="save()" #f="ngForm">
+        <label
+          >Nom<input
+            name="name"
+            [(ngModel)]="form.name"
+            required
+            maxlength="120" /></label
+        ><label
+          >Description<textarea
+            name="description"
+            [(ngModel)]="form.description"
+            maxlength="2000"
+          ></textarea>
+        </label>
+        <div class="form-row">
+          <label
+            >Prix (€)<input
+              name="price"
+              type="number"
+              [(ngModel)]="form.price"
+              required
+              min="0.01"
+              max="99999999.99"
+              step="0.01" /></label
+          ><label
+            >Stock<input
+              name="stock"
+              type="number"
+              [(ngModel)]="form.stock"
+              required
+              min="0"
+              max="1000000"
+              step="1"
+          /></label>
+        </div>
+        <label
+          >Catégorie<select
+            name="categoryId"
+            [(ngModel)]="form.categoryId"
+            required
+          >
+            <option [ngValue]="null">Choisir une catégorie</option>
+            <option *ngFor="let c of categories" [ngValue]="c.id">
+              {{ c.name }}
+            </option>
+          </select></label
+        ><label
+          >URL image<input
+            name="imageUrl"
+            [(ngModel)]="form.imageUrl"
+            maxlength="1000"
+            placeholder="/assets/placeholder.svg ou https://…" /></label
+        ><label class="checkbox"
+          ><input
+            name="active"
+            type="checkbox"
+            [(ngModel)]="form.active"
+          />Visible dans la boutique</label
+        ><button class="button full" [disabled]="f.invalid || busy">
+          {{ busy ? "Enregistrement…" : "Enregistrer" }}</button
+        ><button
+          class="button secondary full"
+          type="button"
+          [disabled]="busy"
+          (click)="reset()"
+        >
+          Nouveau / Annuler
+        </button>
+      </form>
+    </aside>
+  </div>
+</section>

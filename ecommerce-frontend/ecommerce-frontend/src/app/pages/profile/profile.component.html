@@ -1,0 +1,22 @@
+<section class="container section narrow">
+  <div class="page-heading">
+    <span class="eyebrow">VOTRE ESPACE</span>
+    <h1>Mon compte.</h1>
+  </div>
+  <p *ngIf="loading" role="status">Chargement…</p>
+  <p *ngIf="error" class="alert error" role="alert">{{ error }}</p>
+  <div class="profile-card" *ngIf="user as u">
+    <div class="avatar">{{ u.name.charAt(0).toUpperCase() }}</div>
+    <h2>{{ u.name }}</h2>
+    <dl>
+      <dt>Email</dt>
+      <dd>{{ u.email }}</dd>
+      <dt>Compte</dt>
+      <dd>{{ u.role === "ADMIN" ? "Administrateur" : "Client" }}</dd>
+    </dl>
+    <a class="button" routerLink="/orders">Mes commandes ↗</a
+    ><a class="button secondary" *ngIf="u.role === 'ADMIN'" routerLink="/admin"
+      >Administration ↗</a
+    >
+  </div>
+</section>

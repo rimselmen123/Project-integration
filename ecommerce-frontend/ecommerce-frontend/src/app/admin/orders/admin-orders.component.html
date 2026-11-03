@@ -1,0 +1,45 @@
+<section class="container section">
+  <span class="eyebrow">ADMINISTRATION</span>
+  <h1>Commandes.</h1>
+  <app-admin-nav></app-admin-nav>
+  <p class="alert error" *ngIf="error" role="alert">{{ error }}</p>
+  <p class="alert success" *ngIf="message" role="status">{{ message }}</p>
+  <p *ngIf="loading">Chargement…</p>
+  <label class="filter-status"
+    >Filtrer par statut<select [(ngModel)]="filter">
+      <option value="">Tous les statuts</option>
+      <option *ngFor="let s of statuses" [value]="s">{{ label(s) }}</option>
+    </select></label
+  >
+  <article class="order-card" *ngFor="let o of filtered">
+    <div class="order-header">
+      <div>
+        <strong>#{{ o.id }} · {{ o.customerName }}</strong>
+        <p>{{ o.createdAt | date: "dd/MM/yyyy à HH:mm" }}</p>
+      </div>
+      <strong>{{ o.total | currency: "EUR" }}</strong
+      ><label
+        >Statut<select
+          [ngModel]="o.status"
+          (ngModelChange)="update(o, $event)"
+          [disabled]="busy"
+        >
+          <option *ngFor="let s of statuses" [ngValue]="s">
+            {{ label(s) }}
+          </option>
+        </select></label
+      >
+    </div>
+    <details>
+      <summary>Articles et livraison</summary>
+      <div class="summary-line" *ngFor="let i of o.items">
+        <span>{{ i.productName }} × {{ i.quantity }}</span
+        ><strong>{{ i.subtotal | currency: "EUR" }}</strong>
+      </div>
+      <p>{{ o.shippingAddress }}</p>
+    </details>
+  </article>
+  <div class="empty" *ngIf="!loading && !filtered.length">
+    <p>Aucune commande à afficher.</p>
+  </div>
+</section>

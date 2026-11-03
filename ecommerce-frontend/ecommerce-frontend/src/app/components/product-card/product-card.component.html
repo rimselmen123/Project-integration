@@ -1,0 +1,28 @@
+<article class="product-card">
+  <a class="product-image" [routerLink]="['/products', product.id]"
+    ><img
+      [src]="product.imageUrl || '/assets/placeholder.svg'"
+      [alt]="product.name"
+      loading="lazy"
+      (error)="fallback($event)"
+    /><span *ngIf="!product.stock" class="stock-badge">Épuisé</span></a
+  >
+  <div class="product-copy">
+    <span class="eyebrow">{{ product.categoryName }}</span>
+    <h3>
+      <a [routerLink]="['/products', product.id]">{{ product.name }}</a>
+    </h3>
+    <div class="product-bottom">
+      <strong>{{ product.price | currency: "EUR" }}</strong
+      ><button
+        class="round-button"
+        type="button"
+        [disabled]="!product.stock || busy"
+        (click)="add.emit(product)"
+        [attr.aria-label]="'Ajouter ' + product.name + ' au panier'"
+      >
+        {{ busy ? "…" : "+" }}
+      </button>
+    </div>
+  </div>
+</article>

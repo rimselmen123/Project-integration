@@ -1,0 +1,54 @@
+<app-hero></app-hero>
+<section class="container section">
+  <div class="section-heading">
+    <div>
+      <span class="eyebrow">À CHAQUE ENVIE, SON ESSENTIEL</span>
+      <h2>Explorez nos univers.</h2>
+    </div>
+  </div>
+  <p *ngIf="loading" role="status">Chargement du catalogue…</p>
+  <p *ngIf="error" class="alert error" role="alert">{{ error }}</p>
+  <div class="category-grid">
+    <app-category-card
+      *ngFor="let c of categories"
+      [category]="c"
+    ></app-category-card>
+  </div>
+</section>
+<section class="container section">
+  <div class="section-heading">
+    <div>
+      <span class="eyebrow">NOTRE SÉLECTION</span>
+      <h2>Les favoris du moment.</h2>
+    </div>
+    <a class="text-link" routerLink="/products">Tout découvrir ↗</a>
+  </div>
+  <p class="alert success" *ngIf="message" role="status">
+    {{ message }} <a routerLink="/cart">Voir le panier</a>
+  </p>
+  <div class="product-grid">
+    <app-product-card
+      *ngFor="let p of products"
+      [product]="p"
+      [busy]="adding === p.id"
+      (add)="add($event)"
+    ></app-product-card>
+  </div>
+</section>
+<section class="values container">
+  <div>
+    <span>01</span>
+    <h3>Utile, avant tout.</h3>
+    <p>Des essentiels pensés pour votre quotidien.</p>
+  </div>
+  <div>
+    <span>02</span>
+    <h3>Le juste prix.</h3>
+    <p>Une sélection accessible et sans détour.</p>
+  </div>
+  <div>
+    <span>03</span>
+    <h3>Simple, de bout en bout.</h3>
+    <p>Du catalogue à votre suivi de commande.</p>
+  </div>
+</section>

@@ -1,0 +1,57 @@
+<section class="container auth-section">
+  <div class="auth-intro">
+    <span class="eyebrow">BIENVENUE CHEZ MAISON</span>
+    <h1>Vos essentiels<br />commencent ici<span>.</span></h1>
+    <p>
+      Créez votre compte pour composer votre panier et suivre vos commandes.
+    </p>
+  </div>
+  <div class="auth-card">
+    <h2>Créer un compte</h2>
+    <p *ngIf="error" class="alert error" role="alert">{{ error }}</p>
+    <form (ngSubmit)="submit()" #form="ngForm">
+      <label
+        >Nom complet<input
+          name="name"
+          [(ngModel)]="name"
+          required
+          maxlength="80"
+          autocomplete="name" /></label
+      ><label
+        >Email<input
+          name="email"
+          type="email"
+          email
+          [(ngModel)]="email"
+          required
+          maxlength="150"
+          autocomplete="email" /></label
+      ><label
+        >Mot de passe<input
+          name="password"
+          type="password"
+          [(ngModel)]="password"
+          required
+          minlength="8"
+          maxlength="72"
+          autocomplete="new-password"
+        /><small>Entre 8 et 72 caractères.</small></label
+      ><label
+        >Confirmer le mot de passe<input
+          name="confirmation"
+          type="password"
+          [(ngModel)]="confirmation"
+          required
+          autocomplete="new-password" /></label
+      ><button
+        class="button full"
+        [disabled]="form.invalid || password !== confirmation || busy"
+      >
+        {{ busy ? "Création…" : "Créer mon compte" }} ↗
+      </button>
+    </form>
+    <p>
+      Déjà inscrit ? <a class="text-link" routerLink="/login">Se connecter</a>
+    </p>
+  </div>
+</section>

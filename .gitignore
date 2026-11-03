@@ -1,0 +1,12 @@
+# Java / Maven
+ecommerce-backend/ecommerce-backend/target/
+
+# Node / Angular
+ecommerce-frontend/ecommerce-frontend/node_modules/
+ecommerce-frontend/ecommerce-frontend/dist/
+ecommerce-frontend/ecommerce-frontend/.angular/
+
+# Local configuration and logs
+.env
+*.log
+.idea/

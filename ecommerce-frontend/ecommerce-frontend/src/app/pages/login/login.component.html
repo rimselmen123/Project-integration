@@ -1,0 +1,49 @@
+<section class="container auth-section">
+  <div class="auth-intro">
+    <span class="eyebrow">VOTRE ESPACE MAISON</span>
+    <h1>Heureux de<br />vous retrouver<span>.</span></h1>
+    <p>
+      Votre sélection, vos commandes et tous vos essentiels au même endroit.
+    </p>
+  </div>
+  <div class="auth-card">
+    <h2>Connexion</h2>
+    <p *ngIf="error" class="alert error" role="alert">{{ error }}</p>
+    <form (ngSubmit)="submit()" #form="ngForm">
+      <label
+        >Email<input
+          name="email"
+          type="email"
+          email
+          [(ngModel)]="email"
+          required
+          maxlength="150"
+          autocomplete="email" /></label
+      ><label
+        >Mot de passe<input
+          name="password"
+          type="password"
+          [(ngModel)]="password"
+          required
+          maxlength="72"
+          autocomplete="current-password" /></label
+      ><button class="button full" [disabled]="form.invalid || busy">
+        {{ busy ? "Connexion…" : "Se connecter" }} ↗
+      </button>
+    </form>
+    <p>
+      Pas encore de compte ?
+      <a class="text-link" routerLink="/register">Créer un compte</a>
+    </p>
+    <div class="demo-accounts" *ngIf="mock">
+      <strong>Essayez la démo</strong>
+      <p>client@demo.com ou admin@demo.com<br />Mot de passe : Demo12345!</p>
+      <button
+        class="button secondary"
+        (click)="email = 'client@demo.com'; password = 'Demo12345!'"
+      >
+        Remplir le compte client
+      </button>
+    </div>
+  </div>
+</section>

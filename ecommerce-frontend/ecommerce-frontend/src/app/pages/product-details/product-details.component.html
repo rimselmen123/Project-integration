@@ -1,0 +1,44 @@
+<section class="container section">
+  <a class="text-link" routerLink="/products">← Retour à la boutique</a>
+  <p *ngIf="loading" role="status">Chargement…</p>
+  <p class="alert error" *ngIf="error" role="alert">{{ error }}</p>
+  <p class="alert success" *ngIf="message" role="status">
+    {{ message }} <a routerLink="/cart">Voir mon panier</a>
+  </p>
+  <div class="detail-grid" *ngIf="product as p">
+    <div class="detail-image">
+      <img
+        [src]="p.imageUrl || '/assets/placeholder.svg'"
+        [alt]="p.name"
+        (error)="fallback($event)"
+      />
+    </div>
+    <div class="detail-copy">
+      <span class="eyebrow">{{ p.categoryName }}</span>
+      <h1>{{ p.name }}</h1>
+      <strong class="detail-price">{{ p.price | currency: "EUR" }}</strong>
+      <p>{{ p.description }}</p>
+      <p class="availability">
+        {{ p.stock > 0 ? p.stock + " disponible(s)" : "Actuellement épuisé" }}
+      </p>
+      <form (ngSubmit)="add()" #form="ngForm">
+        <label
+          >Quantité<input
+            class="quantity"
+            name="quantity"
+            type="number"
+            [(ngModel)]="quantity"
+            min="1"
+            [max]="p.stock < 1000 ? p.stock : 1000"
+            required /></label
+        ><button class="button" [disabled]="form.invalid || !p.stock || busy">
+          {{ busy ? "Ajout…" : "Ajouter au panier" }} ↗
+        </button>
+      </form>
+      <div class="detail-note">
+        Un essentiel de la sélection Maison.<br />Commande de démonstration,
+        sans paiement.
+      </div>
+    </div>
+  </div>
+</section>

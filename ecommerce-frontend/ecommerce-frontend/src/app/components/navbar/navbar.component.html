@@ -1,0 +1,49 @@
+<div class="announcement">
+  Des essentiels bien choisis, pour tous les jours.
+</div>
+<header class="nav-wrap">
+  <nav class="container nav" aria-label="Navigation principale">
+    <a class="brand" routerLink="/">maison<span>.</span></a>
+    <button
+      class="menu-toggle"
+      type="button"
+      (click)="open = !open"
+      [attr.aria-expanded]="open"
+      aria-controls="main-menu"
+    >
+      Menu ☰
+    </button>
+    <div
+      id="main-menu"
+      class="nav-links"
+      [class.open]="open"
+      (click)="open = false"
+    >
+      <a
+        routerLink="/"
+        routerLinkActive="selected"
+        [routerLinkActiveOptions]="{ exact: true }"
+        >Accueil</a
+      ><a routerLink="/products" routerLinkActive="selected">Boutique</a>
+      <ng-container *ngIf="auth.user; else guest"
+        ><a routerLink="/orders" routerLinkActive="selected">Commandes</a
+        ><a routerLink="/profile" routerLinkActive="selected">Mon compte</a
+        ><a
+          *ngIf="auth.user?.role === 'ADMIN'"
+          routerLink="/admin"
+          routerLinkActive="selected"
+          >Administration</a
+        ><button class="link-button" (click)="logout()">
+          Déconnexion
+        </button></ng-container
+      >
+      <ng-template #guest><a routerLink="/login">Connexion</a></ng-template>
+    </div>
+    <a class="cart-link" routerLink="/cart" aria-label="Ouvrir le panier"
+      >Panier ↗</a
+    >
+  </nav>
+</header>
+<div *ngIf="mock" class="mode-banner">
+  Mode démo · données enregistrées dans ce navigateur · aucun paiement réel
+</div>

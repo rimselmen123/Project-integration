@@ -1,0 +1,79 @@
+<section class="container section">
+  <div class="page-heading">
+    <span class="eyebrow">VOTRE SÉLECTION</span>
+    <h1>Le panier.</h1>
+  </div>
+  <p *ngIf="loading" role="status">Chargement…</p>
+  <p *ngIf="error" class="alert error" role="alert">{{ error }}</p>
+  <div class="empty" *ngIf="!loading && cart && !cart.items.length">
+    <h2>Votre panier attend ses essentiels.</h2>
+    <p>Découvrez la sélection et trouvez votre prochain favori.</p>
+    <a class="button" routerLink="/products">Explorer la boutique ↗</a>
+  </div>
+  <div class="cart-grid" *ngIf="cart && cart.items.length">
+    <div>
+      <article class="cart-row" *ngFor="let i of cart.items">
+        <img
+          [src]="i.imageUrl || '/assets/placeholder.svg'"
+          [alt]="i.productName"
+          (error)="fallback($event)"
+        />
+        <div>
+          <a [routerLink]="['/products', i.productId]"
+            ><h3>{{ i.productName }}</h3></a
+          >
+          <p>{{ i.price | currency: "EUR" }} / unité</p>
+          <button
+            class="link-button muted"
+            [disabled]="busy"
+            (click)="remove(i.id)"
+          >
+            Retirer
+          </button>
+        </div>
+        <label class="quantity-label"
+          >Quantité<input
+            type="number"
+            [ngModel]="i.quantity"
+            (ngModelChange)="update(i.id, $event)"
+            min="1"
+            max="1000"
+            [disabled]="busy" /></label
+        ><strong>{{ i.subtotal | currency: "EUR" }}</strong>
+      </article>
+      <button class="link-button" [disabled]="busy" (click)="clear()">
+        Vider le panier
+      </button>
+    </div>
+    <aside class="summary">
+      <h2>Votre commande</h2>
+      <div class="summary-line">
+        <span>Sous-total</span
+        ><strong>{{ cart.total | currency: "EUR" }}</strong>
+      </div>
+      <div class="summary-line">
+        <span>Livraison (démo)</span><span>Offerte</span>
+      </div>
+      <div class="summary-total">
+        <span>Total</span><strong>{{ cart.total | currency: "EUR" }}</strong>
+      </div>
+      <form (ngSubmit)="checkout()" #form="ngForm">
+        <label
+          >Adresse de livraison<textarea
+            name="address"
+            [(ngModel)]="address"
+            minlength="10"
+            maxlength="500"
+            required
+            placeholder="Rue, ville, code postal…"
+          ></textarea></label
+        ><button class="button full" [disabled]="form.invalid || busy">
+          {{ busy ? "Traitement…" : "Valider la commande" }} ↗
+        </button>
+      </form>
+      <small
+        >Sans paiement réel. Le stock est vérifié lors de la validation.</small
+      >
+    </aside>
+  </div>
+</section>

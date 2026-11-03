@@ -1,0 +1,72 @@
+<section class="container section">
+  <span class="eyebrow">ADMINISTRATION</span>
+  <h1>Catégories.</h1>
+  <app-admin-nav></app-admin-nav>
+  <p class="alert error" *ngIf="error" role="alert">{{ error }}</p>
+  <p class="alert success" *ngIf="message" role="status">{{ message }}</p>
+  <div class="admin-grid">
+    <div class="table-wrap">
+      <h2>Les univers</h2>
+      <p *ngIf="loading">Chargement…</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Nom</th>
+            <th>Description</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let c of categories">
+            <td>{{ c.name }}</td>
+            <td>{{ c.description }}</td>
+            <td>
+              <button
+                class="link-button"
+                [disabled]="busy"
+                (click)="
+                  form = { id: c.id, name: c.name, description: c.description }
+                "
+              >
+                Modifier</button
+              ><button
+                class="link-button danger"
+                [disabled]="busy"
+                (click)="remove(c)"
+              >
+                Supprimer
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <aside class="editor">
+      <h2>{{ form.id ? "Modifier" : "Nouvelle catégorie" }}</h2>
+      <form (ngSubmit)="save()" #f="ngForm">
+        <label
+          >Nom<input
+            name="name"
+            [(ngModel)]="form.name"
+            required
+            maxlength="80" /></label
+        ><label
+          >Description<textarea
+            name="description"
+            [(ngModel)]="form.description"
+            maxlength="500"
+          ></textarea></label
+        ><button class="button full" [disabled]="f.invalid || busy">
+          {{ busy ? "Enregistrement…" : "Enregistrer" }}</button
+        ><button
+          class="button secondary full"
+          type="button"
+          [disabled]="busy"
+          (click)="reset()"
+        >
+          Nouveau / Annuler
+        </button>
+      </form>
+    </aside>
+  </div>
+</section>

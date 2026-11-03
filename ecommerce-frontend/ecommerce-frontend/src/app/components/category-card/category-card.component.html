@@ -1,0 +1,13 @@
+<a
+  class="category-card"
+  routerLink="/products"
+  [queryParams]="{ category: category.id }"
+  ><span class="category-symbol">{{
+    category.id === 1 ? "◉" : category.id === 2 ? "⌂" : "◇"
+  }}</span>
+  <div>
+    <h3>{{ category.name }}</h3>
+    <p>{{ category.description }}</p>
+  </div>
+  <span class="arrow">↗</span></a
+>

@@ -1,0 +1,40 @@
+<section class="container section narrow">
+  <div class="page-heading">
+    <span class="eyebrow">VOTRE ESPACE</span>
+    <h1>Mes commandes.</h1>
+    <p>Retrouvez votre sélection et son suivi.</p>
+  </div>
+  <p class="alert success" *ngIf="created" role="status">
+    Votre commande #{{ created }} a bien été créée.
+  </p>
+  <p *ngIf="loading" role="status">Chargement…</p>
+  <p *ngIf="error" class="alert error" role="alert">{{ error }}</p>
+  <div class="empty" *ngIf="!loading && !error && !orders.length">
+    <h2>Votre première commande vous attend.</h2>
+    <a class="button" routerLink="/products">Découvrir la boutique ↗</a>
+  </div>
+  <article class="order-card" *ngFor="let o of orders">
+    <div class="order-header">
+      <div>
+        <strong>Commande #{{ o.id }}</strong>
+        <p>{{ o.createdAt | date: "dd/MM/yyyy à HH:mm" }}</p>
+      </div>
+      <span class="status">{{ label(o.status) }}</span
+      ><strong>{{ o.total | currency: "EUR" }}</strong>
+    </div>
+    <button
+      class="link-button"
+      (click)="expanded = expanded === o.id ? 0 : o.id"
+      [attr.aria-expanded]="expanded === o.id"
+    >
+      {{ expanded === o.id ? "Masquer" : "Voir" }} les détails ↓
+    </button>
+    <div class="order-details" *ngIf="expanded === o.id">
+      <div class="summary-line" *ngFor="let i of o.items">
+        <span>{{ i.productName }} × {{ i.quantity }}</span
+        ><strong>{{ i.subtotal | currency: "EUR" }}</strong>
+      </div>
+      <p><strong>Livraison</strong><br />{{ o.shippingAddress }}</p>
+    </div>
+  </article>
+</section>
